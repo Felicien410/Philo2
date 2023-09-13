@@ -11,7 +11,7 @@ int	check_death(t_philo *philo, int i)
 		return (1);
 	}
 	pthread_mutex_unlock(&philo->global_info->the_dead);
-	return (0);
+	return (0);  
 }
 
 void *is_dead(void *arg)
@@ -29,7 +29,8 @@ void *is_dead(void *arg)
         pthread_mutex_unlock(&philo->global_info->last_meal_enable);
         pthread_mutex_unlock(&philo->global_info->finish);
         pthread_mutex_lock(&philo->global_info->enable_writing);
-        write_status("died", philo);
+        write_status("died\n", philo);
+
         pthread_mutex_unlock(&philo->global_info->enable_writing);
         check_death(philo, 1);
     }
@@ -37,7 +38,6 @@ void *is_dead(void *arg)
     pthread_mutex_unlock(&philo->global_info->finish);
     pthread_exit(NULL);
 }
-
 
 void philosopher_routine_the_end(t_philo *philo)
 {
@@ -68,10 +68,8 @@ void philosopher_routine_start(t_philo *philo)
     pthread_mutex_unlock(&philo->global_info->enable_writing);
     if (!philo->right_fork)
     {
-        ft_putstr_fd("\n\n AHHHHHHHHHHHHH \n\n ", 2);
-        pthread_mutex_unlock(philo->left_fork);
         ft_usleep(philo->global_info->time_to_die * 2);
-        //return NULL;
+        return;
     }
     pthread_mutex_lock(philo->right_fork);
     gettimeofday(&current_time, NULL);
@@ -97,18 +95,19 @@ void philosopher_routine_start(t_philo *philo)
 
 }
 
-
 void* philosopher_routine(void *arg)
 {
-    struct timeval current_time;
     t_philo *philo;
     philo = (t_philo*)arg;
-    if (philo->id % 2 == 0) //&& philo->global_info)
+
+    if (philo->id % 2 == 0 && philo->global_info->number_of_philosophers > 1)
         ft_usleep(philo->global_info->time_to_eat / 10);
     while(check_death(philo, 0) == 0)
     {
         pthread_create(&philo->thread_death_id, NULL, is_dead, philo);
+        //printf ("\nphilo->number_meal_eat -> %ld\nphilo->global_info->max_meal -> %ld\n\n",philo->number_meal_eat, philo->global_info->max_meal);
         philosopher_routine_start(philo);
+
         pthread_detach(philo->thread_death_id);
         philo->number_meal_eat = philo->number_meal_eat + 1;
         if(philo->number_meal_eat == philo->global_info->max_meal)
@@ -126,7 +125,7 @@ void* philosopher_routine(void *arg)
             return(NULL);
         }
     }
-      //  pthread_join(philo->thread_death_id, NULL); // Assurez-vous que le thread est bien terminé
+    //pthread_join(philo->thread_death_id, NULL); // Assurez-vous que le thread est bien terminé
     pthread_exit(NULL);
     return (NULL);
 }
