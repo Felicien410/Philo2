@@ -43,20 +43,26 @@ typedef struct s_all {
     t_global global;
 } t_all;
 
-// Ici, je suppose que vous avez une fonction qui renvoie le temps actuel en ms
-long actual_time(void);
+long    actual_time(void);
+void    ft_usleep(long time);
 
-// Et une fonction pour "dormir"
-void ft_usleep(long time);
-void	write_status(char *str, t_philo *philo);
-void *is_dead(void *arg);
+void    write_status(char *str, t_philo *philo);
+void    *is_dead(void *arg);
 
-int	check_death(t_philo *philo, int i);
-void print_single_philo(t_philo *philo);
-void print_all_philos(t_all *allo);
+int     check_death(t_philo *philo, int i);
+void    print_single_philo(t_philo *philo);
+void*   philosopher_routine(void *arg);
 
-void* philosopher_routine(void *arg);
+//init
+void init_threads(t_all *all_data);
+void init_philo(t_all *all_data);
+void init_mut(t_all *all_data);
+void ft_error();
+void init_values(int a, char **arg, t_all *all_datas);
 
+//print and utils
+void    print_all_philos(t_all *allo);
 void	ft_putstr_fd(char *s, int fd);
+long	ft_atoi(const char *str);
 
 #endif // PHILO_H
