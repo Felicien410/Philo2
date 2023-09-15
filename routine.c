@@ -6,7 +6,7 @@
 /*   By: fcatteau <fcatteau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 21:31:18 by fcatteau          #+#    #+#             */
-/*   Updated: 2023/09/15 10:55:44 by fcatteau         ###   ########.fr       */
+/*   Updated: 2023/09/15 13:06:07 by fcatteau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ void	*philosopher_routine(void *arg)
 		pthread_mutex_lock(&philo->global_info->the_dead);
 		if (philo->global_info->have_to_stop == 1)
 		{
-			printf("DFFFF\n");
 			pthread_mutex_unlock(&philo->global_info->the_dead);
 			philosopher_handle_death(philo);
 			return (NULL);

@@ -6,7 +6,7 @@
 /*   By: fcatteau <fcatteau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 21:31:06 by fcatteau          #+#    #+#             */
-/*   Updated: 2023/09/15 10:52:52 by fcatteau         ###   ########.fr       */
+/*   Updated: 2023/09/15 11:08:53 by fcatteau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	init_mut(t_all *all_data)
 	pthread_mutex_init(&all_data->global.the_dead, NULL);
 	pthread_mutex_init(&all_data->global.finish, NULL);
 	pthread_mutex_init(&all_data->global.last_meal_enable, NULL);
-	pthread_mutex_init(&all_data->global.meal_counter, NULL);
+	//pthread_mutex_init(&all_data->global.meal_counter, NULL);
 }
 
 void	ft_error(void)

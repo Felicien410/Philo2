@@ -6,7 +6,7 @@
 /*   By: fcatteau <fcatteau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 21:31:26 by fcatteau          #+#    #+#             */
-/*   Updated: 2023/09/15 10:57:03 by fcatteau         ###   ########.fr       */
+/*   Updated: 2023/09/15 13:03:22 by fcatteau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ void	*is_dead(void *arg)
 		write_status("died\n", philo);
 		pthread_mutex_unlock(&philo->global_info->enable_writing);
 		//pthread_detach(philo->thread_death_id);
-		pthread_mutex_lock(&philo->global_info->the_dead);
-		philo->global_info->have_to_stop = 1;
-		pthread_mutex_unlock(&philo->global_info->the_dead);
+		//pthread_mutex_lock(&philo->global_info->the_dead);
+		//philo->global_info->have_to_stop = 1;
+		//pthread_mutex_unlock(&philo->global_info->the_dead);
 		check_death(philo, 1);
 	}
 	else
