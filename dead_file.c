@@ -6,7 +6,7 @@
 /*   By: fcatteau <fcatteau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 21:31:26 by fcatteau          #+#    #+#             */
-/*   Updated: 2023/09/15 13:03:22 by fcatteau         ###   ########.fr       */
+/*   Updated: 2023/09/15 15:12:00 by fcatteau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,9 @@ void	*is_dead(void *arg)
 
 	philo = (t_philo *)arg;
 	ft_usleep(philo->global_info->time_to_die + 1);
+	
 	current_time = actual_time();
+	pthread_mutex_lock(&philo->global_info->time_to_die_mut); //ici si tu les met ca enlenve pour 5 arg mais ca en remet un a 4
 	pthread_mutex_lock(&philo->global_info->last_meal_enable);
 	pthread_mutex_lock(&philo->global_info->finish);
 	if (!check_death(philo, 0) && !philo->finish_philo
@@ -41,7 +43,9 @@ void	*is_dead(void *arg)
 		>= philo->global_info->time_to_die)
 	{
 		pthread_mutex_unlock(&philo->global_info->last_meal_enable);
+		pthread_mutex_unlock(&philo->global_info->time_to_die_mut);
 		pthread_mutex_unlock(&philo->global_info->finish);
+		
 		pthread_mutex_lock(&philo->global_info->enable_writing);
 		write_status("died\n", philo);
 		pthread_mutex_unlock(&philo->global_info->enable_writing);
@@ -58,5 +62,3 @@ void	*is_dead(void *arg)
 	}
 	pthread_exit(NULL);
 }
-
-

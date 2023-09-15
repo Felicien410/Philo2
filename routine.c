@@ -6,7 +6,7 @@
 /*   By: fcatteau <fcatteau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 21:31:18 by fcatteau          #+#    #+#             */
-/*   Updated: 2023/09/15 13:06:07 by fcatteau         ###   ########.fr       */
+/*   Updated: 2023/09/15 15:27:04 by fcatteau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,11 @@ void	*philosopher_routine(void *arg)
 		pthread_create(&philo->thread_death_id, NULL, is_dead, philo);
 		philosopher_routine_start(philo);
 		pthread_detach(philo->thread_death_id);
+		
+		pthread_mutex_lock(&philo->global_info->number_eat_meal);
 		philo->number_meal_eat = philo->number_meal_eat + 1;
+		pthread_mutex_unlock(&philo->global_info->number_eat_meal);
+
 		pthread_mutex_lock(&philo->global_info->the_dead);
 		if (philo->global_info->have_to_stop == 1)
 		{
@@ -103,13 +107,17 @@ void	*philosopher_routine(void *arg)
 		}
 		else
 			pthread_mutex_unlock(&philo->global_info->the_dead);
+		
+		pthread_mutex_lock(&philo->global_info->number_eat_meal);
 		if (philo->number_meal_eat == philo->global_info->max_meal)
 		{
-			printf("FGHJKL\n");
+			pthread_mutex_unlock(&philo->global_info->number_eat_meal);
+			printf("GHJK");
 			philosopher_handle_death(philo);
 			return (NULL);
 		}
-
+		else
+			pthread_mutex_unlock(&philo->global_info->number_eat_meal);
 	}
 	return (NULL);
 }

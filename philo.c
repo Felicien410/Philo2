@@ -6,7 +6,7 @@
 /*   By: fcatteau <fcatteau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 21:31:33 by fcatteau          #+#    #+#             */
-/*   Updated: 2023/09/15 09:48:56 by fcatteau         ###   ########.fr       */
+/*   Updated: 2023/09/15 15:23:22 by fcatteau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	main(int argc, char **argv)
 		free(&(all_data.philosophers[i]));
 		i++;
 	}*/
+	free(all_data.global.mut);
 	if (all_data.philosophers)
 		free(all_data.philosophers);
-	free(all_data.global.mut);
 }
