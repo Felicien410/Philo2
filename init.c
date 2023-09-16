@@ -6,7 +6,7 @@
 /*   By: fcatteau <fcatteau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 21:31:06 by fcatteau          #+#    #+#             */
-/*   Updated: 2023/09/16 18:45:06 by fcatteau         ###   ########.fr       */
+/*   Updated: 2023/09/16 22:12:44 by fcatteau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,13 @@ void	init_philo(t_all *all_data)
 	all_data->philosophers = malloc(all_data->global.number_of_philosophers
 			* sizeof(t_philo));
 	all_data->global.the_start = actual_time();
-	all_data->global.have_to_stop = 0;
 	all_data->global.all_finish_philo = 0;
 	all_data->global.philo_died = 0;
 	all_data->global.almost_satisfied = 0;
 	while (i < all_data->global.number_of_philosophers)
 	{
 		all_data->philosophers[i].id = i;
-		all_data->philosophers[i].global_info = &all_data->global;
+		all_data->philosophers[i].g = &all_data->global;
 		all_data->philosophers[i].number_meal_eat = 0;
 		all_data->philosophers[i].finish_unq_philo = 0;
 		all_data->philosophers[i].philo_ate = 0;
@@ -49,15 +48,13 @@ void	init_threads(t_all *all_data)
 	i = 0;
 	all_data->global.threads = (pthread_t *)malloc(
 			all_data->global.number_of_philosophers * sizeof(pthread_t));
-	all_data->global.time = actual_time();
 	while (i < all_data->global.number_of_philosophers)
 	{
 		pthread_create(&all_data->global.threads[i], NULL,
-			philosopher_routine, &all_data->philosophers[i]);
+			&philosopher_routine, &all_data->philosophers[i]);
 		i++;
 	}
 	dead_check(all_data);
-	
 }
 
 void	init_mut(t_all *all_data)

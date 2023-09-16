@@ -6,7 +6,7 @@
 /*   By: fcatteau <fcatteau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 21:31:51 by fcatteau          #+#    #+#             */
-/*   Updated: 2023/09/15 16:39:57 by fcatteau         ###   ########.fr       */
+/*   Updated: 2023/09/16 22:31:29 by fcatteau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,10 @@ long	ft_atoi(const char *str)
 	return (result * neg);
 }
 
-void join_threads(t_all *all_data)
+void	join_threads(t_all *all_data)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	while (i < all_data->global.number_of_philosophers)
 	{
@@ -74,4 +74,9 @@ void join_threads(t_all *all_data)
 		i++;
 	}
 	free(all_data->global.threads);
+}
+
+long	diffe_time(int actual_time, int previous_time)
+{
+	return (actual_time - previous_time);
 }
