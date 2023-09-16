@@ -6,7 +6,7 @@
 /*   By: fcatteau <fcatteau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 21:31:06 by fcatteau          #+#    #+#             */
-/*   Updated: 2023/09/15 15:15:26 by fcatteau         ###   ########.fr       */
+/*   Updated: 2023/09/16 18:45:06 by fcatteau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,16 @@ void	init_philo(t_all *all_data)
 	all_data->global.the_start = actual_time();
 	all_data->global.have_to_stop = 0;
 	all_data->global.all_finish_philo = 0;
+	all_data->global.philo_died = 0;
+	all_data->global.almost_satisfied = 0;
 	while (i < all_data->global.number_of_philosophers)
 	{
 		all_data->philosophers[i].id = i;
 		all_data->philosophers[i].global_info = &all_data->global;
 		all_data->philosophers[i].number_meal_eat = 0;
-		all_data->philosophers[i].finish_philo = 0;
+		all_data->philosophers[i].finish_unq_philo = 0;
+		all_data->philosophers[i].philo_ate = 0;
+		all_data->philosophers[i].done_eating = 0;
 		all_data->philosophers[i].left_fork = &all_data->global.mut[i];
 		if (all_data->global.number_of_philosophers == 1)
 			return ;
@@ -45,12 +49,15 @@ void	init_threads(t_all *all_data)
 	i = 0;
 	all_data->global.threads = (pthread_t *)malloc(
 			all_data->global.number_of_philosophers * sizeof(pthread_t));
+	all_data->global.time = actual_time();
 	while (i < all_data->global.number_of_philosophers)
 	{
 		pthread_create(&all_data->global.threads[i], NULL,
 			philosopher_routine, &all_data->philosophers[i]);
 		i++;
 	}
+	dead_check(all_data);
+	
 }
 
 void	init_mut(t_all *all_data)
@@ -65,15 +72,16 @@ void	init_mut(t_all *all_data)
 	}
 	pthread_mutex_init(&all_data->global.enable_writing, NULL);
 	pthread_mutex_init(&all_data->global.the_dead, NULL);
-	pthread_mutex_init(&all_data->global.finish, NULL);
-	pthread_mutex_init(&all_data->global.last_meal_enable, NULL);
+	pthread_mutex_init(&all_data->global.finish_unq_philo_mut, NULL);
+	pthread_mutex_init(&all_data->global.check, NULL);
+	pthread_mutex_init(&all_data->global.check_died, NULL);
 	pthread_mutex_init(&all_data->global.time_to_die_mut, NULL);
 	pthread_mutex_init(&all_data->global.number_eat_meal, NULL);
 }
 
 void	ft_error(void)
 {
-	printf("please use valid arguments\nfor example ./philo 3 200 200 200");
+	printf("please use valid arguments\nfor example ./philo 3 200 200 200\n");
 	exit(0);
 }
 

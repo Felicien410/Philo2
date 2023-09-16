@@ -6,7 +6,7 @@
 /*   By: fcatteau <fcatteau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 21:31:33 by fcatteau          #+#    #+#             */
-/*   Updated: 2023/09/15 15:23:22 by fcatteau         ###   ########.fr       */
+/*   Updated: 2023/09/16 14:48:05 by fcatteau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	write_status(char *str, t_philo *philo)
 
 	time = -1;
 	time = actual_time() - philo->global_info->the_start;
-	if (time >= 0 && time <= 2147483647 && !check_death(philo, 0))
+	if (time >= 0 && time <= 2147483647)
 	{
 		printf("%ld ", time);
 		printf("%d %s", philo->id, str);

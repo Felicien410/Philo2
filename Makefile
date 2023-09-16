@@ -1,21 +1,33 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: fcatteau <fcatteau@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/09/14 18:42:37 by fcatteau          #+#    #+#              #
+#    Updated: 2023/09/16 14:50:16 by fcatteau         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = philo
 
-SRCS = philo.c \
-       utils.c \
-       time.c \
-	   print_struct.c \
-	   routine.c \
-	   init.c
+SRCS = srcs/philo.c \
+       srcs/utils.c \
+       srcs/time.c \
+       srcs/routine.c \
+       srcs/init.c \
+	   srcs/dead_file.c \
+	   srcs/routine2.c
 
 OBJS = $(SRCS:.c=.o)
 
 HEADERS = -I ./Includes/
 
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS =  -Wall -Werror -Wextra #-fsanitize=thread
 
 $(NAME): $(OBJS)
 	gcc $(CFLAGS) $(HEADERS) -o $(NAME) $(OBJS) -lpthread
-	@$(MAKE) clean
 
 %.o: %.c
 	gcc $(CFLAGS) $(HEADERS) -c $< -o $@
