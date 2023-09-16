@@ -6,7 +6,7 @@
 /*   By: fcatteau <fcatteau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 21:31:06 by fcatteau          #+#    #+#             */
-/*   Updated: 2023/09/16 22:12:44 by fcatteau         ###   ########.fr       */
+/*   Updated: 2023/09/16 23:10:57 by fcatteau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	init_philo(t_all *all_data)
 		all_data->philosophers[i].id = i;
 		all_data->philosophers[i].g = &all_data->global;
 		all_data->philosophers[i].number_meal_eat = 0;
+		all_data->philosophers[i].last_meal_time = 0;
 		all_data->philosophers[i].finish_unq_philo = 0;
 		all_data->philosophers[i].philo_ate = 0;
 		all_data->philosophers[i].done_eating = 0;
@@ -72,8 +73,6 @@ void	init_mut(t_all *all_data)
 	pthread_mutex_init(&all_data->global.finish_unq_philo_mut, NULL);
 	pthread_mutex_init(&all_data->global.check, NULL);
 	pthread_mutex_init(&all_data->global.check_died, NULL);
-	pthread_mutex_init(&all_data->global.time_to_die_mut, NULL);
-	pthread_mutex_init(&all_data->global.number_eat_meal, NULL);
 }
 
 void	ft_error(void)

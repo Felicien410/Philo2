@@ -6,19 +6,7 @@
 /*   By: fcatteau <fcatteau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 08:37:08 by fcatteau          #+#    #+#             */
-/*   Updated: 2023/09/16 22:34:50 by fcatteau         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: fcatteau <fcatteau@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/14 08:37:08 by fcatteau          #+#    #+#             */
-/*   Updated: 2023/09/14 09:28:09 by fcatteau         ###   ########.fr       */
+/*   Updated: 2023/09/16 23:06:24 by fcatteau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +28,18 @@ typedef struct s_global
 	long			time_to_sleep;
 	long			max_meal;
 	long			the_start;
-	int				have_to_stop;
 	pthread_t		*threads;
+	pthread_t		*death_check_threads;
 	pthread_mutex_t	enable_writing;
 	pthread_mutex_t	the_dead;
 	pthread_mutex_t	*mut;
-	pthread_mutex_t	finish;
-	pthread_mutex_t	last_meal_enable;
+	pthread_mutex_t	finish_unq_philo_mut;
+	pthread_mutex_t	check;
+	pthread_mutex_t	check_died;
+	int				philo_died;
+	int				almost_satisfied;
 	long			all_finish_philo;
-}	t_global;
+}					t_global;
 
 typedef struct s_philo
 {
@@ -56,33 +47,39 @@ typedef struct s_philo
 	long			last_meal_time;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
-	pthread_t		thread_death_id;
-	t_global		*global_info;
+	t_global		*g;
 	long			number_meal_eat;
-	int				finish_philo;
-}	t_philo;
+	int				finish_unq_philo;
+	int				philo_ate;
+	int				done_eating;
+}					t_philo;
 
 typedef struct s_all
 {
 	t_philo			*philosophers;
 	t_global		global;
-}	t_all;
+}					t_all;
 
-long	actual_time(void);
-void	ft_usleep(long time);
-void	write_status(char *str, t_philo *philo);
-void	*philosopher_routine(void *arg);
-void	philosopher_routine_start(t_philo *philo);
-void	acquire_forks_and_eat(t_philo *philo);
-void	release_forks_and_end_routine(t_philo *philo);
-int		check_death(t_philo *philo, int i);
-void	*is_dead(void *arg);
-void	init_threads(t_all *all_data);
-void	init_philo(t_all *all_data);
-void	init_mut(t_all *all_data);
-void	ft_error(void);
-void	init_values(int a, char **arg, t_all *all_datas);
-void	ft_putstr_fd(char *s, int fd);
-long	ft_atoi(const char *str);
+void				write_status(char *str, t_philo *philo);
+long				actual_time(void);
+void				ft_usleep(long time);
+void				write_status(char *str, t_philo *philo);
+void				*philosopher_routine(void *arg);
+void				philosopher_routine_start(t_philo *philo);
+void				acquire_forks_and_eat(t_philo *philo);
+void				release_forks_and_end_routine(t_philo *philo);
+void				init_threads(t_all *all_data);
+void				init_philo(t_all *all_data);
+void				init_mut(t_all *all_data);
+void				ft_error(void);
+void				init_values(int a, char **arg, t_all *all_datas);
+void				ft_putstr_fd(char *s, int fd);
+long				ft_atoi(const char *str);
+void				join_threads(t_all *all_data);
+void				dead_check(void *arg);
+int					print_dead(t_philo *philo);
+long				diffe_time(int actual_time, int previous_time);
+void				philo_eat(t_philo *philo);
+void				print_sleep_routine(t_philo *philo);
 
 #endif
